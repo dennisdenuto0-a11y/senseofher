@@ -1,8 +1,9 @@
 import json, re, os, sys, collections, html
 root = sys.argv[1]
 allc = []
-for i in range(1, 7):
-    allc += json.load(open(os.path.join(root, f'data/claims/claims{i}.json'), encoding='utf-8'))
+import glob
+for f in sorted(glob.glob(os.path.join(root, 'data/claims/claims*.json')), key=lambda p: int(re.search(r'claims(\d+)', p).group(1))):
+    allc += json.load(open(f, encoding='utf-8'))
 ALIAS = {
  'Andrew': 'Andrew Irvine', 'Irvine': 'Andrew Irvine', 'NAB CEO': 'Andrew Irvine',
  'Ana': 'Ana Marinkovic', 'Anna': 'Ana Marinkovic', 'Putina': 'Ana Marinkovic',

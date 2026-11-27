@@ -9,8 +9,10 @@ for code, r in D.items():
     mt = int(r.get('mt') or 1)
     if r.get('t'):
         date = datetime.datetime.fromtimestamp(int(r['t']), tz).strftime('%Y-%m-%d')
+    elif code not in idx:
+        date = datetime.datetime.now(tz).strftime('%Y-%m-%d') + '~'  # new post with no timestamp: collection day, approximate
     else:
-        date = datetime.datetime.strptime(idx[code]['date'].lstrip('~'), '%B %d, %Y').strftime('%Y-%m-%d') + '~'
+        date =datetime.datetime.strptime(idx[code]['date'].lstrip('~'), '%B %d, %Y').strftime('%Y-%m-%d') + '~'
     s = O.get(code, {})
     out.append({'code': code, 'date': date, 'type': {1: 'image', 2: 'reel', 8: 'carousel'}.get(mt, str(mt)),
                 'url': f"https://www.instagram.com/senseofher__/{'reel' if mt == 2 else 'p'}/{code}/",
