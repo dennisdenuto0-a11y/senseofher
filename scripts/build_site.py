@@ -41,6 +41,5 @@ corpus = {p['code']: p for p in json.load(open(os.path.join(root, 'data/corpus.j
 data = {'claims': allc, 'people': P, 'posts': {k: {'date': v['date'], 'type': v['type'], 'url': v['url'], 'n': len(v['slides'])} for k, v in corpus.items()}}
 tpl = open(os.path.join(root, 'scripts/template.html'), encoding='utf-8').read()
 out = tpl.replace('/*DATA*/null', json.dumps(data, ensure_ascii=False).replace('</', '<\\/'))
-os.makedirs(os.path.join(root, 'site'), exist_ok=True)
-open(os.path.join(root, 'site/index.html'), 'w', encoding='utf-8').write(out)
+open(os.path.join(root, 'index.html'), 'w', encoding='utf-8').write(out)
 print(len(allc), 'claims', len(P), 'people', sum(1 for v in P.values() if v['n'] >= 3), 'with 3+')
