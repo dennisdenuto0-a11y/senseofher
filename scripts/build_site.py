@@ -39,7 +39,9 @@ for c in allc:
         if k and r: roles[k][r[0]] += 1
 P = {k: {'n': len(v), 'role': (roles[k].most_common(1)[0][0] if roles[k] else ''), 'ids': v} for k, v in people.items()}
 corpus = {p['code']: p for p in json.load(open(os.path.join(root, 'data/corpus.json'), encoding='utf-8'))}
-data = {'claims': allc, 'people': P, 'posts': {k: {'date': v['date'], 'type': v['type'], 'url': v['url'], 'n': len(v['slides'])} for k, v in corpus.items()}}
+import datetime
+updated = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=10))).strftime('%d %b %Y %H:%M')
+data = {'updated': updated, 'claims': allc, 'people': P, 'posts': {k: {'date': v['date'], 'type': v['type'], 'url': v['url'], 'n': len(v['slides'])} for k, v in corpus.items()}}
 tpl = open(os.path.join(root, 'scripts/template.html'), encoding='utf-8').read()
 out = tpl.replace('/*DATA*/null', json.dumps(data, ensure_ascii=False).replace('</', '<\\/'))
 open(os.path.join(root, 'index.html'), 'w', encoding='utf-8').write(out)
